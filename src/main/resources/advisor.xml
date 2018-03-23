@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--目标类型-->
+    <bean id="service" class="SpringAdvisor.serviceImpl"></bean>
+   <!--增强通知-->
+    <bean id="BeforeAdvice" class="SpringAdvisor.BeforeAdvice"></bean>
+    <!--AspectJ xml配置-->
+    <aop:config>
+        <aop:pointcut id="mypoint" expression="execution(* *..advisor.*.*(..))"></aop:pointcut>
+        <aop:aspect ref="BeforeAdvice">
+            <aop:before method="myBefore" pointcut-ref="mypoint"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

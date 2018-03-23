@@ -1,0 +1,6 @@
+package SpringDemo01;/**
+ * Created by Administrator on 2018/3/10.
+ */
+public class methodbefore  {
+
+}

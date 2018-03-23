@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/beans ">
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql:///springs2228"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value=""></property>
+    </bean>
+    <bean id="JdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean id="accontDao" class="day22.Dao.AccontDaoimpl">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean id="stockDao" class="day22.Dao.StockDaoimpl">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean id="accontService" class="day22.service.AccontServiceimpl">
+        <property name="accontDao" ref="accontDao"></property>
+        <property name="stockDao" ref="stockDao"></property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <bean class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager" ref="transactionManager"></property>
+        <property name="target" ref="accontService"></property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="ASpy">ISOLATION_DEFAUULT,PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
